@@ -5,8 +5,8 @@
 <h3>{{ area.city }}, {{ area.state }}</h3>
 	<ul class="items">
 		{% for venue in area.venues %}
-		<li>
-			<a href="/venues/{{ venue.id }}">
+		<li >
+			<a href="/venues/{{ venue.id }}" class="" >
 				<i class="fas fa-music"></i>
 				<div class="item">
 					<h5>{{ venue.name }}</h5>
@@ -15,5 +15,12 @@
 		</li>
 		{% endfor %}
 	</ul>
+	<script>
+		const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'delete-button';
+        deleteBtn.setAttribute('venue-id', jsonResponse.id);
+        deleteBtn.innerHTML = '&cross;';
+        li.appendChild(deleteBtn);
+	</script>
 {% endfor %}
 {% endblock %}

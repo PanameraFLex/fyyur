@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "bootstrap": "^3.4.1"
+  },
+  "name": "fyyur",
+  "description": "Fyyur -----",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PanameraFLex/fyyur.git"
+  },
+  "keywords": [],
+  "author": "Chukwuyem Monye",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PanameraFLex/fyyur/issues"
+  },
+  "homepage": "https://github.com/PanameraFLex/fyyur#readme"
+}
