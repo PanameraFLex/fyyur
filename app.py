@@ -38,12 +38,6 @@ migrate = Migrate(app, db)
 #----------------------------------------------------------------------------#
 
 
-
-
-
-
-
-
     # TODO: implement any missing fields, as a database migration using Flask-Migrate
 
 # TODO Implement Show and Artist models, and complete all model relationships and properties, as a database migration.
@@ -163,7 +157,7 @@ def show_venue(venue_id):
       db.and_(Show.start_time < current_time, Show.venue_id == venue_id)).all()
     for show in past:
       past_show={}
-      past_show['artist_id']=show.artist_id
+      past_show['artist_id']=show.artist.id
       past_show['artist_name']=show.artist.name
       past_show['artist_image_link']=show.artist.image_link
       past_show['start_time']=str(show.start_time)
@@ -173,7 +167,7 @@ def show_venue(venue_id):
       db.and_(Show.start_time > current_time, Show.venue_id == venue_id)).all()
     for show in upcoming:
       upcoming_show={}
-      upcoming_show['artist_id']=show.artist_id
+      upcoming_show['artist_id']=show.artist.id
       upcoming_show['artist_name']=show.artist.name
       upcoming_show['artist_image_link']=show.artist.image_link
       upcoming_show['start_time']=str(show.start_time)
@@ -314,7 +308,7 @@ def show_artist(artist_id):
   # shows the artist page with the given artist_id
   # TODO: replace with real artist data from the artist table, using artist_id
   data = {}
-  artist_data = Artist.query.filter(Artist.id == artist_id).first()
+  artist_data = Artist.query.filter(Artist.id==artist_id).first()
   data = {}
   data['id'] = artist_data.id
   data['name'] = artist_data.name
@@ -335,7 +329,7 @@ def show_artist(artist_id):
     db.and_(Show.start_time < current_time, Show.artist_id == artist_id)).all()
   for show in past:
     past_show = {}
-    past_show['venue_id'] = show.venue_id
+    past_show['venue_id'] = show.venue.id
     past_show['venue_name'] = show.venue.name
     past_show['venue_image_link'] = show.venue.image_link
     past_show['start_time'] = str(show.start_time)
@@ -345,7 +339,7 @@ def show_artist(artist_id):
     db.and_(Show.start_time > current_time, Show.artist_id == artist_id)).all()
   for show in upcoming:
     upcoming_show = {}
-    upcoming_show['venue_id'] = show.venue_id
+    upcoming_show['venue_id'] = show.venue.id
     upcoming_show['venue_name'] = show.venue.name
     upcoming_show['venue_image_link'] = show.venue.image_link
     upcoming_show['start_time'] = str(show.start_time)
@@ -465,7 +459,7 @@ def create_artist_submission():
       #phoneExists = False
       if not Artist.query.filter(Artist.phone == request.form['phone']).count() > 0:
         artist = Artist(name=request.form['name'], city=request.form['city'], state=request.form['state'], phone=request.form['phone'], 
-        genres=request.form.getlist('genres',type=str), website=request.form['website_link'], seeking_venue='seeking_venue' in request.form, 
+        genres=request.form.getlist('genres',type=str), website=request.form['website_link'], image_link=request.form['image_link'], seeking_venue='seeking_venue' in request.form, 
         seeking_description=request.form['seeking_description'])
 
         db.session.add(artist)
