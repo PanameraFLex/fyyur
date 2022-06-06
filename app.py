@@ -3,10 +3,7 @@
 #----------------------------------------------------------------------------#
 
 from distutils.log import error
-from email.policy import default
 import json
-from unicodedata import name
-from click import Abort
 import dateutil.parser
 import babel
 import datetime
@@ -15,12 +12,11 @@ from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from pytz import timezone
-from sqlalchemy.dialects.postgresql import ARRAY
 import logging
 from logging import Formatter, FileHandler
 from flask_wtf import Form
 from forms import *
-from models import Venue, Artist, Show, app, db
+from models import Venue, Artist, Show, db
 #----------------------------------------------------------------------------#
 # App Config.
 #----------------------------------------------------------------------------#
@@ -28,7 +24,7 @@ from models import Venue, Artist, Show, app, db
 app = Flask(__name__)
 moment = Moment(app)
 app.config.from_object('config')
-db = SQLAlchemy(app)
+db.init_app(app)
 migrate = Migrate(app, db)
 
 # TODO: connect to a local postgresql database
@@ -459,7 +455,7 @@ def create_artist_submission():
       #phoneExists = False
       if not Artist.query.filter(Artist.phone == request.form['phone']).count() > 0:
         artist = Artist(name=request.form['name'], city=request.form['city'], state=request.form['state'], phone=request.form['phone'], 
-        genres=request.form.getlist('genres',type=str), website=request.form['website_link'], image_link=request.form['image_link'], seeking_venue='seeking_venue' in request.form, 
+        genres=request.form.getlist('genres',type=str), website=request.form['website_link'], image_link=request.form['image_link'], facebook_link=request.form['facebook_link'], seeking_venue='seeking_venue' in request.form, 
         seeking_description=request.form['seeking_description'])
 
         db.session.add(artist)
